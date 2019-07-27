@@ -1,0 +1,7 @@
+1) david is not in the sudoers file. this incident will be reported
+
+su root
+vim /ect/sudoers
+#Allow root to run any commands anywhere
+root  ALL=(ALL)		ALL
+david ALL=(ALL)		ALL

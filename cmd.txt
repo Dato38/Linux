@@ -1,0 +1,1707 @@
+1. Установка и настройка
+
+1.1 Как сделать общую папку в виртуальной машине?
+
+virtualbox -> Настроить -> Общая папка -> + -> Путь к папке (выбираем свой) -> подключаться автоматически -> Запустить машину -> Устройства -> подключить гостевую папку -> Запустить -> Появится терминал, после завершения процесса, можем закрытьтерминал -> появится папка на рабочем столе, но прав доступа к ней не будет, поэтому открыть терминал и добавить пользователя в группу vboxsf -> 
+[david@cent ~]$ sudo usermod -aG vboxsf david
+
+1.2 Установка Python в Ubuntu 
+
+1) Сначала посмотрите какая версия Python установлена в вашей системе
+david@VirtualBox:~/Документы$ python3 --version
+Python 3.6.7
+
+2) обновить систему и установить пакет нужной версии
+david@VirtualBox:~/Документы$ sudo apt update
+david@VirtualBox:~/Документы$ sudo apt install python3.7
+
+3) проверяем версию
+david@VirtualBox:~/Документы$ python3.7 -V
+Python 3.7.3
+
+4) если вы попытаетесь получить список возможностей, то получите ошибку. 
+david@VirtualBox:~/Документы$ update-alternatives --list python
+update-alternatives: ошибка: нет альтернатив для python
+
+5) нужно сначала установить какие файлы за что отвечают.
+david@VirtualBox:~/Документы$ sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.6 1
+update-alternatives: используется /usr/bin/python3.6 для предоставления /usr/bin/python3 (python3) в автоматическом режиме
+david@VirtualBox:~/Документы$ sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.7 2
+update-alternatives: используется /usr/bin/python3.7 для предоставления /usr/bin/python3 (python3) в автоматическом режиме
+david@VirtualBox:~/Документы$ update-alternatives --list python3
+/usr/bin/python3.6
+/usr/bin/python3.7
+
+6) мы можем выбрать нужную нам версию и переключаться по необходимости. Для настройки используйте команду config
+david@VirtualBox:~/Документы$ sudo update-alternatives --config python3
+Есть 2 варианта для альтернативы python3 (предоставляет /usr/bin/python3).
+
+  Выбор   Путь            Приор Состояние
+------------------------------------------------------------
+* 0            /usr/bin/python3.7   2         автоматический режим
+  1            /usr/bin/python3.6   1         ручной режим
+  2            /usr/bin/python3.7   2         ручной режим
+
+Press <enter> to keep the current choice[*], or type selection number: 0
+
+7) посмотрите какая версия Python установлена
+david@VirtualBox:~/Документы$ python3 -V
+Python 3.7.3
+
+1.3 установка для frontend разработчика
+
+david@VirtualBox: sudo apt-get install openjdk-7-jdk
+david@VirtualBox: перетаскиваем в терминал файл phpshtorm.sh
+david@VirtualBox: sudo apt-get install node.js
+david@VirtualBox: sudo apt-get install npm
+david@VirtualBox: sudo apt-get install git
+david@VirtualBox: перетаскиваем в терминал файл smartgit.sh
+david@VirtualBox: sudo npm install --global gulp
+david@VirtualBox: sudo npm install -g bower
+david@VirtualBox: sudo npm install jade --global
+david@VirtualBox: sudo apt-get install ruby
+david@VirtualBox: sudo gem install sass
+Установим фотошоп через менеджер приложений playonlinux
+
+2. Работа с текстовым редактором
+gedit, nano, vim, pico
+h - влево
+j - вниз
+k - вверх
+l - вправо
+shift+i - режим ввода текста
+еsс / ctrl+c - режим командной строки
+r+(на какую букву нужно заменить) - замена буквы
+shift+r - замена нескольких букв
+shift+a - в конец строки
+x - удаляет букву
+4+х - удаляет 4 буквы
+d+d - удаление строки
+3+d+d - удаление 3х строк
+u - вернуть изменения
+/+(слово) - поиск по слову в большом тексте
+shift+w -сохранить
+shift+q! - выйти без сохранения
+shift+wq -сохранить и выйти
+
+1.1 откроем файл:
+[david@cent linux]$ vim somefile
+
+1.2 создание нового файла
+[david@cent linux]$ vim (название файла)
+
+2. Знакомство с Linux
+ctrl+a - переместить в начало строки
+(начало файла)+tab - дополняет файл
+
+2.1 основы терминала
+
+1) вывести текст в командной строке:
+[david@cent ~]$ echo "hello world"
+hello world
+
+2) Oчистить экран
+[david@cent linux]$ clear
+
+3) посмотреть настройки терминала: 
+[david@cent ~]$ set -o
+allexport      	off
+braceexpand    	on
+emacs          	on
+errexit        	off
+errtrace       	off
+functrace      	off
+hashall        	on
+histexpand     	on
+history        	on
+ignoreeof      	off
+interactive-comments	on
+keyword        	off
+monitor        	on
+noclobber      	off
+noexec         	off
+noglob         	off
+nolog          	off
+notify         	off
+nounset        	off
+onecmd         	off
+physical       	off
+pipefail       	off
+posix          	off
+privileged     	off
+verbose        	off
+vi             	off
+xtrace         	off
+
+4) Вывести сообщение на экран
+david@VirtualBox:~$ /usr/bin/notify-send "Title" "Hellowold"
+
+2.2 создание переменных alias для упрощения работы с терминалом
+
+1) Добавим переменную eh в файле .bashrc
+[david@cent ~]$ vim ~/.bashrc
+[david@cent ~]$ cat ~/.bashrc
+alias eh="mkdir test"
+
+2) Перезапустим файл .bashrc
+[david@cent ~]$ source ~/.bashrc
+3) Запустим нашу команду
+[david@cent ~]$ eh
+
+2.3 Навигация по файловой системе:
+
+1) список файлов:
+[david@cent linux]$ ls /home/david
+Видео      Загрузки     Музыка         Рабочий стол
+Документы  Изображения  Общедоступные  Шаблоны
+
+2) более подробный список (права доступа, пользователи, группы,  время создания, размер файла, имя файла)
+[david@cent linux]$ ls -l /home/david
+итого 0
+drwxr-xr-x. 2 david david  6 июн 27 08:57 Видео
+drwxr-xr-x. 4 david david 30 июн 28 14:04 Документы
+drwxr-xr-x. 2 david david  6 июн 27 08:57 Загрузки
+drwxr-xr-x. 2 david david  6 июн 27 08:57 Изображения
+drwxr-xr-x. 2 david david  6 июн 27 08:57 Музыка
+drwxr-xr-x. 2 david david  6 июн 27 08:57 Общедоступные
+drwxr-xr-x. 2 david david  6 июн 27 08:57 Рабочий стол
+drwxr-xr-x. 2 david david  6 июн 27 08:57 Шаблоны
+
+3) покажет все скрытые файлы:
+[david@cent linux]$ ls -a /home/david
+.              .bashrc    .gnupg         .redhat    Загрузки       Шаблоны
+..             .cache     .ICEauthority  .ssh       Изображения
+.bash_history  .config    .local         .viminfo   Музыка
+.bash_logout   .dbus      .mozilla       Видео      Общедоступные
+.bash_profile  .esd_auth  .pki           Документы  Рабочий стол
+
+4) сортировать по времени:
+[david@cent linux]$ ls -t /home/david
+Документы  Загрузки     Музыка         Рабочий стол
+Видео      Изображения  Общедоступные  Шаблоны
+
+5) Можно сразу несколько опций (скрыто-а, по времени-t и подробно-l):
+[david@cent linux]$ ls -atl /home/david
+итого 40
+drwx------. 19 david david 4096 июн 28 14:39 .
+-rw-------   1 david david 8122 июн 28 14:39 .viminfo
+drwxr-xr-x.  4 david david   30 июн 28 14:04 Документы
+-rw-------.  1 david david 1570 июн 28 14:02 .ICEauthority
+-rw-------.  1 david david  135 июн 28 11:07 .bash_history
+drwx------   2 david david    6 июн 27 11:04 .ssh
+drwx------   2 david david   79 июн 27 11:04 .gnupg
+drwxrw----   3 david david   19 июн 27 11:03 .pki
+drwx------. 16 david david 4096 июн 27 09:07 .cache
+drwxr-xr-x.  6 david david   81 июн 27 09:07 .mozilla
+drwxr-xr-x. 14 david david  261 июн 27 08:58 .config
+drwx------.  3 david david   17 июн 27 08:57 .redhat
+drwxr-xr-x.  2 david david    6 июн 27 08:57 Видео
+drwxr-xr-x.  2 david david    6 июн 27 08:57 Загрузки
+drwxr-xr-x.  2 david david    6 июн 27 08:57 Изображения
+drwxr-xr-x.  2 david david    6 июн 27 08:57 Музыка
+drwxr-xr-x.  2 david david    6 июн 27 08:57 Общедоступные
+drwxr-xr-x.  2 david david    6 июн 27 08:57 Рабочий стол
+drwxr-xr-x.  2 david david    6 июн 27 08:57 Шаблоны
+-rw-------.  1 david david   16 июн 27 08:57 .esd_auth
+drwx------.  3 david david   19 июн 27 08:57 .local
+drwx------.  3 david david   25 июн 27 08:57 .dbus
+drwxr-xr-x.  3 root  root    19 июн 26 17:34 ..
+-rw-r--r--.  1 david david   18 окт 31  2018 .bash_logout
+-rw-r--r--.  1 david david  193 окт 31  2018 .bash_profile
+-rw-r--r--.  1 david david  231 окт 31  2018 .bashrc
+
+6) перейти в текущую папку:
+[david@cent linux]$ cd Документы/
+
+7) Перейти в предыдущую папку:
+[david@cent linux]$ cd ..
+
+8) Перейти в корневую папку:
+[david@cent linux]$ cd ~
+
+9) Где мы сейчас находимся:
+[david@cent linux]$ pwd
+/home/david/Документы/linux
+
+2.4 Работа с файлами и папками
+
+1) создадим файлы:
+[david@cent linux]$ touch somefile
+[david@cent linux]$ touch somefile2
+[david@cent linux]$ touch file1
+[david@cent linux]$ touch file2
+
+2) создадим несколько файлов с расширением ру
+[david@cent linux]$ touch {app,main,config,migrate}.py
+
+3) создаем директорию:
+[david@cent linux]$ mkdir directory
+[david@cent linux]$ mkdir papka
+[david@cent linux]$ mkdir photo
+
+4) одновременно создадим папку арр и перейдем в эту папку
+[david@cent Документы]$ mkdir app && cd app
+
+5) одновременно создадим папку test и создадим в test файл
+[david@cent Документы]$ mkdir test && touch test/adfa.txt
+
+6) создаем файл в директории:
+[david@cent linux]$ touch directory/newfile
+
+7) переместим файл в директорию
+[david@cent linux]$ mv somefile directory/
+
+8) создадим несколько файлов
+[david@cent linux]$ touch png1 png2 png3 png4
+
+9) переместим все файлы с png в директорию
+[david@cent linux]$ mv png* photo/
+
+10) переименуем файл:
+[david@cent linux]$ mv somefile2 smfl2
+
+11) копируем файл:
+[david@cent linux]$ cp smfl2 smfl3
+
+12) копируем директорию:
+[david@cent linux]$ cp -r photo/ phto
+
+13) удалим файлы:
+[david@cent linux]$ rm smfl2
+
+14) удалим директорию
+[david@cent linux]$ rm -r phto
+
+15) создаем ссылку на файл
+[david@cent linux]$ ln -s file1 softlink 
+
+16) откроем файл
+[david@cent linux]$ cat  file1 
+fdbjkd h
+
+17) откроем ссылку
+[david@cent linux]$ cat softlink 
+fdbjkd h
+
+18) удалим файл
+[david@cent linux]$ rm file1
+
+19) открыть ссылку уже не получится
+[david@cent linux]$ cat softlink 
+cat: softlink: Нет такого файла или каталога
+
+20) создаем мягкую ссылку и удалим файл
+[david@cent linux]$ ln file2 hardlink
+[david@cent linux]$ rm file2
+
+21) откроется ссылка
+[david@cent linux]$ cat hardlink 
+
+2.5 поиск файлов
+
+1) по типу
+[david@cent linux]$ find . -type -f
+
+2) поиск по названию
+[david@cent linux]$ find . -name "png1"
+./photo/png1
+
+3) поиск по расширению
+[david@cent linux]$ find . -name "*.txt"
+./cmd.txt
+
+4) поиск по размеру больше 2Кб
+[david@cent linux]$ find . -size +2
+./cmd.txt
+
+5) описк по размеру меньше 2кб
+[david@cent linux]$ find . -size -2
+.
+./directory
+./directory/newfile
+./directory/somefile
+./photo
+./photo/png1
+./photo/png3
+./photo/png4
+./photo/privet
+./photo/privet/png2
+./softlink
+./hardlink
+
+6) поиск по времени
+[david@cent linux]$ find . -mtime +1
+[david@cent linux]$ find . -mtime -1
+[david@cent linux]$ find . -ctime -1
+[david@cent linux]$ find . -atime -1
+
+7) поиск по расширении
+[david@cent linux]$ find . -iname "*.txt" -or -iname "*.doc" -or -iname "*.gpg"
+./cmd.txt
+
+8) поиск по расширении и по времени
+[david@cent linux]$ find . -iname "*.txt" -or -iname "*.doc" -or -iname "*.gpg" -and -ctime -1
+./cmd.txt
+
+9) поиск с помощью  grep по определенному слову и в файле
+[david@cent linux]$ grep "hello" new/app.py
+hello david. kak dela
+
+10) покажет слово с заглавными буквами
+[david@cent linux]$ grep -i "hello" new/app.py
+hello david. kak dela
+Hellosworld
+
+11) покажет номер строки в которой присутствует это слово
+[david@cent linux]$ grep -in "hello" new/app.py
+1:hello david. kak dela
+
+12) покажет список
+[david@cent linux]$ grep -iwl "hello" new/*
+
+13) покажет в каких строках присутсвует данное слово
+[david@cent linux]$ grep -iwc "hello" new/*
+
+14) попробуем найти номер телефона (d - сколько цифр в фигурной скобке мы ищем)
+[david@cent linux]$ grep -i "\d{4}-\d{2}-\d{3}" new/main.py
+
+15) Мы можем вынести информацию в отдельный файл (tel2.txt)
+[david@cent linux]$ grep -i "\d{4}-\d{2}-\d{3}" new/main.py > new/tel2.txt
+
+16) Мы можем записать регулярные выражения (\d{4}-\d{2}-\d{3}) в файл (new/pattrent.txt)
+[david@cent linux]$ grep -owiPf new/pattrent.txt new/main.py > new/tel2.txt
+
+2.6 архивирование и сжатие 
+gzip / bzip2 / xz - скомпрессировать файл
+gunzip / bunzip2 / unxz - раскомпресировать файл
+
+1) смотрим, что у нас есть
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ ls -l
+итого 20
+drwxrwx--- 1 root vboxsf 4096 июл 19 13:10 google
+-rwxrwx--- 1 root vboxsf   69 июл 19 13:12 igu
+drwxrwx--- 1 root vboxsf 4096 июл 19 13:10 mail
+-rwxrwx--- 1 root vboxsf   19 июл 19 13:13 rpa
+-rwxrwx--- 1 root vboxsf    0 июл 19 13:12 scool
+drwxrwx--- 1 root vboxsf 4096 июл 19 13:01 yandex
+
+2) заархивировать google. c - создать f - файл (обательная буква при архивации)
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ tar cf mytar.tar google 
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ ls -l
+итого 32
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 google
+-rwxrwx--- 1 root vboxsf    69 июл 19 13:12 igu
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 mail
+-rwxrwx--- 1 root vboxsf 10240 июл 19 13:16 mytar.tar
+-rwxrwx--- 1 root vboxsf    19 июл 19 13:13 rpa
+-rwxrwx--- 1 root vboxsf     0 июл 19 13:12 scool
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:01 yandex
+
+3) заархивировать google и показать
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ tar cvf mytar2.tar google
+google/
+google/[1-5].txt
+google/{5-9}.txt
+
+4) разархивировать
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ tar xf mytar.tar
+
+5) разархивировать и показать
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ tar xvf mytar.tar
+google/
+google/[1-5].txt
+google/{5-9}.txt
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ ls -l
+итого 44
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 google
+-rwxrwx--- 1 root vboxsf    69 июл 19 13:12 igu
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 mail
+-rwxrwx--- 1 root vboxsf 10240 июл 19 13:18 mytar2.tar
+-rwxrwx--- 1 root vboxsf 10240 июл 19 13:16 mytar.tar
+-rwxrwx--- 1 root vboxsf    19 июл 19 13:13 rpa
+-rwxrwx--- 1 root vboxsf     0 июл 19 13:12 scool
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:01 yandex
+
+6) gzip архивация 
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ gzip mytar2.tar
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ ls -l
+итого 36
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 google
+-rwxrwx--- 1 root vboxsf    69 июл 19 13:12 igu
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 mail
+-rwxrwx--- 1 root vboxsf   449 июл 19 13:18 mytar2.tar.gz
+-rwxrwx--- 1 root vboxsf 10240 июл 19 13:16 mytar.tar
+-rwxrwx--- 1 root vboxsf    19 июл 19 13:13 rpa
+-rwxrwx--- 1 root vboxsf     0 июл 19 13:12 scool
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:01 yandex
+
+7) разархивировать
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ gunzip mytar2.tar.qz
+gzip: mytar2.tar.qz.gz: No such file or directory
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ gunzip mytar2.tar.gz
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ ls -l
+итого 44
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 google
+-rwxrwx--- 1 root vboxsf    69 июл 19 13:12 igu
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 mail
+-rwxrwx--- 1 root vboxsf 10240 июл 19 13:18 mytar2.tar
+-rwxrwx--- 1 root vboxsf 10240 июл 19 13:16 mytar.tar
+-rwxrwx--- 1 root vboxsf    19 июл 19 13:13 rpa
+-rwxrwx--- 1 root vboxsf     0 июл 19 13:12 scool
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:01 yandex
+
+8) bzip2 архивация 
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ bzip2 mytar2.tar
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ ls -l
+итого 36
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 google
+-rwxrwx--- 1 root vboxsf    69 июл 19 13:12 igu
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 mail
+-rwxrwx--- 1 root vboxsf   646 июл 19 13:18 mytar2.tar.bz2
+-rwxrwx--- 1 root vboxsf 10240 июл 19 13:16 mytar.tar
+-rwxrwx--- 1 root vboxsf    19 июл 19 13:13 rpa
+-rwxrwx--- 1 root vboxsf     0 июл 19 13:12 scool
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:01 yandex
+
+9) разархивировать
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ bunzip2 mytar2.tar.bz2
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ ls -l
+итого 44
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 google
+-rwxrwx--- 1 root vboxsf    69 июл 19 13:12 igu
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 mail
+-rwxrwx--- 1 root vboxsf 10240 июл 19 13:18 mytar2.tar
+-rwxrwx--- 1 root vboxsf 10240 июл 19 13:16 mytar.tar
+-rwxrwx--- 1 root vboxsf    19 июл 19 13:13 rpa
+-rwxrwx--- 1 root vboxsf     0 июл 19 13:12 scool
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:01 yandex
+
+10) xz архивация 
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ xz mytar2.tar
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ ls -l
+итого 36
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 google
+-rwxrwx--- 1 root vboxsf    69 июл 19 13:12 igu
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 mail
+-rwxrwx--- 1 root vboxsf   472 июл 19 13:18 mytar2.tar.xz
+-rwxrwx--- 1 root vboxsf 10240 июл 19 13:16 mytar.tar
+-rwxrwx--- 1 root vboxsf    19 июл 19 13:13 rpa
+-rwxrwx--- 1 root vboxsf     0 июл 19 13:12 scool
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:01 yandex
+
+11) разархивировать
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ unxz mytar2.tar.xz
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ ls -l
+итого 44
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 google
+-rwxrwx--- 1 root vboxsf    69 июл 19 13:12 igu
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 mail
+-rwxrwx--- 1 root vboxsf 10240 июл 19 13:18 mytar2.tar
+-rwxrwx--- 1 root vboxsf 10240 июл 19 13:16 mytar.tar
+-rwxrwx--- 1 root vboxsf    19 июл 19 13:13 rpa
+-rwxrwx--- 1 root vboxsf     0 июл 19 13:12 scool
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:01 yandex
+
+12) сжатие yandex gz
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ rm  mytar*
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ tar cvf myTAR.tar yandex
+yandex/
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ ls -l
+итого 32
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 google
+-rwxrwx--- 1 root vboxsf    69 июл 19 13:12 igu
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 mail
+-rwxrwx--- 1 root vboxsf 10240 июл 19 13:30 myTAR.tar
+-rwxrwx--- 1 root vboxsf    19 июл 19 13:13 rpa
+-rwxrwx--- 1 root vboxsf     0 июл 19 13:12 scool
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:01 yandex
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ tar cvzf myGZIP.gz yandex
+yandex/
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ ls -l
+итого 36
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 google
+-rwxrwx--- 1 root vboxsf    69 июл 19 13:12 igu
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 mail
+-rwxrwx--- 1 root vboxsf   119 июл 19 13:31 myGZIP.gz
+-rwxrwx--- 1 root vboxsf 10240 июл 19 13:30 myTAR.tar
+-rwxrwx--- 1 root vboxsf    19 июл 19 13:13 rpa
+-rwxrwx--- 1 root vboxsf     0 июл 19 13:12 scool
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:01 yandex
+
+13) посмотреть что внутри архива
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ tar tf myGZIP.gz
+yandex/
+
+14) другое сжатие yandex bz2
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ tar cjf myBZIP2.bz2 yandex
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ ls -l
+итого 40
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 google
+-rwxrwx--- 1 root vboxsf    69 июл 19 13:12 igu
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 mail
+-rwxrwx--- 1 root vboxsf   119 июл 19 13:34 myBZIP2.bz2
+-rwxrwx--- 1 root vboxsf   119 июл 19 13:31 myGZIP.gz
+-rwxrwx--- 1 root vboxsf 10240 июл 19 13:30 myTAR.tar
+-rwxrwx--- 1 root vboxsf    19 июл 19 13:13 rpa
+-rwxrwx--- 1 root vboxsf     0 июл 19 13:12 scool
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:01 yandex
+
+15) другое сжатие yandex xz
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ tar cJf myXZ.xz yandex
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ ls -l
+итого 44
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 google
+-rwxrwx--- 1 root vboxsf    69 июл 19 13:12 igu
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 mail
+-rwxrwx--- 1 root vboxsf   119 июл 19 13:34 myBZIP2.bz2
+-rwxrwx--- 1 root vboxsf   119 июл 19 13:31 myGZIP.gz
+-rwxrwx--- 1 root vboxsf 10240 июл 19 13:30 myTAR.tar
+-rwxrwx--- 1 root vboxsf   176 июл 19 13:34 myXZ.xz
+-rwxrwx--- 1 root vboxsf    19 июл 19 13:13 rpa
+-rwxrwx--- 1 root vboxsf     0 июл 19 13:12 scool
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:01 yandex
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ rm -r yandex/
+
+16) распаковать архив
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ tar xvf myBZIP2.bz2
+yandex/
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ ls -l
+итого 44
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 google
+-rwxrwx--- 1 root vboxsf    69 июл 19 13:12 igu
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 mail
+-rwxrwx--- 1 root vboxsf   119 июл 19 13:34 myBZIP2.bz2
+-rwxrwx--- 1 root vboxsf   119 июл 19 13:31 myGZIP.gz
+-rwxrwx--- 1 root vboxsf 10240 июл 19 13:30 myTAR.tar
+-rwxrwx--- 1 root vboxsf   176 июл 19 13:34 myXZ.xz
+-rwxrwx--- 1 root vboxsf    19 июл 19 13:13 rpa
+-rwxrwx--- 1 root vboxsf     0 июл 19 13:12 scool
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:01 yandex
+
+17) запаковать файл в zip
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ zip -r myZIP.zip yandex
+  adding: yandex/ (stored 0%)
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ ls -l
+итого 48
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 google
+-rwxrwx--- 1 root vboxsf    69 июл 19 13:12 igu
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 mail
+-rwxrwx--- 1 root vboxsf   119 июл 19 13:34 myBZIP2.bz2
+-rwxrwx--- 1 root vboxsf   119 июл 19 13:31 myGZIP.gz
+-rwxrwx--- 1 root vboxsf 10240 июл 19 13:30 myTAR.tar
+-rwxrwx--- 1 root vboxsf   176 июл 19 13:34 myXZ.xz
+-rwxrwx--- 1 root vboxsf   164 июл 19 13:37 myZIP.zip
+-rwxrwx--- 1 root vboxsf    19 июл 19 13:13 rpa
+-rwxrwx--- 1 root vboxsf     0 июл 19 13:12 scool
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:01 yandex
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ rm -r yandex/
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ ls -l
+итого 44
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 google
+-rwxrwx--- 1 root vboxsf    69 июл 19 13:12 igu
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 mail
+-rwxrwx--- 1 root vboxsf   119 июл 19 13:34 myBZIP2.bz2
+-rwxrwx--- 1 root vboxsf   119 июл 19 13:31 myGZIP.gz
+-rwxrwx--- 1 root vboxsf 10240 июл 19 13:30 myTAR.tar
+-rwxrwx--- 1 root vboxsf   176 июл 19 13:34 myXZ.xz
+-rwxrwx--- 1 root vboxsf   164 июл 19 13:37 myZIP.zip
+-rwxrwx--- 1 root vboxsf    19 июл 19 13:13 rpa
+-rwxrwx--- 1 root vboxsf     0 июл 19 13:12 scool
+
+18) распаковать zip
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ unzip myZIP.zip
+Archive:  myZIP.zip
+   creating: yandex/
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ ls -l
+итого 48
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 google
+-rwxrwx--- 1 root vboxsf    69 июл 19 13:12 igu
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:10 mail
+-rwxrwx--- 1 root vboxsf   119 июл 19 13:34 myBZIP2.bz2
+-rwxrwx--- 1 root vboxsf   119 июл 19 13:31 myGZIP.gz
+-rwxrwx--- 1 root vboxsf 10240 июл 19 13:30 myTAR.tar
+-rwxrwx--- 1 root vboxsf   176 июл 19 13:34 myXZ.xz
+-rwxrwx--- 1 root vboxsf   164 июл 19 13:37 myZIP.zip
+-rwxrwx--- 1 root vboxsf    19 июл 19 13:13 rpa
+-rwxrwx--- 1 root vboxsf     0 июл 19 13:12 scool
+drwxrwx--- 1 root vboxsf  4096 июл 19 13:01 yandex
+
+2.7  процессы, память
+
+1) просмотр процессов
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ top
+#shift+p - фильтровать по процессору
+#shift+m - фильтровать по памяти
+top - 13:58:23 up  1:17,  1 user,  load average: 0,07, 0,14, 0,16
+Tasks (сколько проц. всего): 229 total,   1 running, 191 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  0,5 us,  0,5 sy,  0,0 ni, 99,0 id,  0,0 wa,  0,0 hi,  0,0 si,  0,0 st
+КиБ Mem (сколько физ памяти):  2040928 total,    78812 free,  1218124 used,   743992 buff/cache
+КиБ Swap (сколько вирт памяти):   973780 total,   967880 free,     5900 used.   581604 avail Mem 
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND     
+ 2014 david     20   0 3504352 299980 115344 S   1,3 14,7   4:57.09 gnome-shell 
+ 3200 david     20   0   49072   3956   3236 R   1,0  0,2   0:00.26 top         
+  606 message+  20   0   51572   5500   3796 S   0,3  0,3   0:03.41 dbus-daemon 
+... 
+   11 root      20   0       0      0      0 I   0,0  0,0   0:00.00 rcu_bh      
+   12 root      rt   0       0      0      0 S   0,0  0,0   0:00.00 migration/0 
+
+2) сколько памяти в байтах (свободно, не свободно)
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ free
+              всего        занято        свободно      общая  буф./врем.   доступно
+Память:     2040928     1218436       73460       94596      749032      577264
+Подкачка:      973780        5900      967880
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ free -h
+              всего        занято        свободно      общая  буф./врем.   доступно
+Память:        1,9G        1,2G         86M         92M        718M        564M
+Подкачка:        950M        7,3M        943M
+
+3) какие процессы запущены у пользователя (список процессов)
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ ps
+  PID TTY          TIME CMD
+ 2829 pts/0    00:00:01 bash
+
+4) вообще все процессы пользователя (u) david
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ ps -u david
+  PID TTY          TIME CMD
+ 1801 ?        00:00:00 systemd
+...
+ 2829 pts/0    00:00:01 bash
+ 2846 ?        00:00:43 gedit
+ 3267 pts/0    00:00:00 ps
+
+5) все процессоры всех (x) пользователей
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ ps x
+  PID TTY      STAT   TIME COMMAND
+ 1801 ?        Ss     0:00 /lib/systemd/systemd --user
+...
+ 2846 ?        Sl     0:47 gedit /media/sf_Ubuntu18.04/cmd.txt
+ 3279 pts/0    R+     0:00 ps x
+
+6) покажет пользователей
+david@Asus:~$ ps -aux
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.2  0.1 225632  9488 ?        Ss   10:23   0:06 /sbin/init spla
+...
+david     2570  3.1  0.4 800580 37992 ?        Ssl  11:17   0:00 /usr/lib/gnome-
+david     2580  0.1  0.0  29688  5056 pts/0    Ss   11:17   0:00 bash
+david     2596  0.0  0.0  46804  3688 pts/0    R+   11:18   0:00 ps -aux
+
+7) допустим нам нужны все данные, но нужно вывести только строчки с david
+david@Asus:~$ ps -aux | grep david
+david     1570  0.0  0.1  77112  8464 ?        Ss   10:25   0:00 /lib/systemd/systemd --user
+...
+david     2570  1.6  0.4 804284 38932 ?        Ssl  11:17   0:02 /usr/lib/gnome-terminal/gnome-terminal-server
+david     2580  0.0  0.0  29688  5056 pts/0    Ss   11:17   0:00 bash
+david     2598  0.0  0.0  46804  3692 pts/0    R+   11:20   0:00 ps -aux
+david     2599  0.0  0.0  21536  1052 pts/0    S+   11:20   0:00 grep --color=auto david
+
+8) где хранятся логи
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ ls /var/log
+alternatives.log    auth.log.1     dpkg.log         installer      postgresql         syslog.5.gz          vboxadd-setup.log
+alternatives.log.1  auth.log.2.gz  dpkg.log.1       journal        speech-dispatcher  syslog.6.gz          wtmp
+apport.log          bootstrap.log  faillog          kern.log       syslog             syslog.7.gz          wtmp.1
+apport.log.1        btmp           fontconfig.log   kern.log.1     syslog.1           sysstat
+apport.log.2.gz     btmp.1         gdm3             kern.log.2.gz  syslog.2.gz        tallylog
+apt                 cups           gpu-manager.log  lastlog        syslog.3.gz        unattended-upgrades
+auth.log            dist-upgrade   hp               mysql          syslog.4.gz        vboxadd-install.log
+
+9) лог в памяти (не сохраняется)
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ dmesg
+david@VirtualBox:/media/sf_Ubuntu18.04/project$ dmesg | grep sda
+[    2.243346] sd 2:0:0:0: [sda] 42105184 512-byte logical blocks: (21.6 GB/20.1 GiB)
+[    2.243368] sd 2:0:0:0: [sda] Write Protect is off
+[    2.243370] sd 2:0:0:0: [sda] Mode Sense: 00 3a 00 00
+[    2.243402] sd 2:0:0:0: [sda] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
+[    2.246099]  sda: sda1
+[    2.246851] sd 2:0:0:0: [sda] Attached SCSI disk
+[    2.906741] EXT4-fs (sda1): mounted filesystem with ordered data mode. Opts: (null)
+[    7.393483] EXT4-fs (sda1): re-mounted. Opts: errors=remount-ro
+
+2.8 типы аккаунтов
+sudo - запустить команду используя права суперпользователя
+su - сменить текущего пользователя
+/etc/passwd - тут хранятся все аккаунты
+/etc/shadow - все пароли
+/etc/group - все группы
+whoami - показать имя текущего пользователя
+id - к каким группам принадлежит пользователь
+who - показать кто сейчас в системе
+w - кто в системе и что делает
+last - показать последние логины
+
+1) посмотрим все аккаунты (root-суперпользователь, daemon-системный аккаунт, david-сам пользователь:х-пароль сохранится в другом файле:0-номер пользователя ID:0-группа ID, для каждого пользователя создается его группа:root-комментарий, полное имя пользователя:/root-где находится домашняя директория:/bin/bash-каким шелл он пользуется)
+david@VirtualBox:/home$ cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+...
+mysql:x:122:127:MySQL Server,,,:/nonexistent:/bin/false
+postgres:x:123:128:PostgreSQL administrator,,,:/var/lib/postgresql:/bin/bash
+vboxadd:x:999:1::/var/run/vboxadd:/bin/false
+
+2) посмотреть где все пароли находятся (david-пользователь:$-гигантский зашифрованный пароль, даже если у двух пользователей мы сделаем одинаковые пароли, то зашифрованные пароль будут все равно разными:18091-сколько дней прошло со смены паролей начинаю с 1970 года:0-когда можно пароль в след раз, если 0, то хоть сейчас можно поменять, если 2, то только через 2 дня можно поменять пароль:99999-когда нужно поменять пароль в следующий раз:7:::)
+david@VirtualBox:/home$ sudo cat /etc/shadow
+[sudo] пароль для david: 
+root:$6$...:18091:0:99999:7:::
+...
+david:$6...:18091:0:99999:7:::
+mysql:!:18086:0:99999:7:::
+postgres:*:18086:0:99999:7:::
+vboxadd:!:18091::::::
+
+3) список групп и кто в этих группах находится (sudo:x:27-номер группы:david-кто может пользоваться этой группой)
+david@VirtualBox:/home$ sudo cat /etc/group
+root:x:0:
+...
+mysql:x:127:
+postgres:x:128:
+vboxsf:x:129:david
+
+4) покажет кто пользователь на данный момент
+david@VirtualBox:/home$ whoami
+david
+
+5) кто сейчас одновременно в системе находится
+david@VirtualBox:/home$ who
+david    :0           2019-07-20 10:12 (:0)
+
+6) что каждый сейчас именно делает
+david@VirtualBox:/home$ w
+ 10:51:49 up 41 min,  1 user,  load average: 0,10, 0,21, 0,32
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+david    :0       :0               10:12   ?xdm?   2:11   0.04s /usr/lib/gdm3/g
+
+7) перейти к другому пользователю
+david@VirtualBox:/home$ su root
+root@VirtualBox:/home$ whoami
+root
+root@VirtualBox:/home# exit
+exit
+
+8) вывести свои данные (номера групп, группы в которых он находится)
+david@VirtualBox:/home$ id
+uid=1000(david) gid=1000(david) группы=1000(david),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),116(lpadmin),126(sambashare),129(vboxsf)
+david@VirtualBox:/home$ id root
+uid=0(root) gid=0(root) группы=0(root)
+
+9) кто делал последний логин этой системы (имя пользователя, дата, когда и что там делали)
+david@VirtualBox:/home$ last
+david    :0           :0               Sat Jul 20 10:12   still logged in
+reboot   system boot  4.18.0-15-generi Sat Jul 20 10:10   still running
+david    :0           :0               Fri Jul 19 13:00 - 20:51  (07:51)
+reboot   system boot  4.18.0-15-generi Fri Jul 19 12:41 - 20:52  (08:10)
+...
+david    :0           :0               Thu Jul 11 08:33 - 14:20  (05:46)
+reboot   system boot  4.18.0-15-generi Thu Jul 11 08:30 - 14:20  (05:50)
+david    :0           :0               Tue Jul  9 20:07 - down   (01:09)
+reboot   system boot  4.18.0-15-generi Tue Jul  9 20:04 - 21:16  (01:12)
+wtmp begins Tue Jul  9 20:04:21 2019
+
+2.9 пользователи и группы
+userdd - m vasya - создать пользователя Вася с домашней директорией
+userdel -r vasya - стереть с домшней директорией
+/etc/skel - это шаблон домашней директории
+passwd vasya - изменить пароль пользователя
+groupadd prog - создать группу
+groupdel prog - удалить группу
+usermod -aG prog vasya - добавить пользователя в группу
+deluser vasya prog - удалить
+
+david@VirtualBox:/home$ ls -l /home
+итого 4
+drwxr-xr-x 18 david david 4096 июл 20 10:12 david
+
+1) добавим пользователя user1 с домашней папкой -m
+david@VirtualBox:/home$ sudo useradd -m user1
+[sudo] пароль для david: 
+david@VirtualBox:/home$ ls -l /home
+итого 8
+drwxr-xr-x 18 david david 4096 июл 20 10:12 david
+drwxr-xr-x  2 user1 user1 4096 июл 20 11:05 user1
+
+2) увидим , что мы добавили user1
+david@VirtualBox:/home$ cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+...
+user1:x:1001:1001::/home/user1:/bin/sh
+
+3) увидим !, значит нету пароля, следовательно user1 не смотжет сделать логин  
+david@VirtualBox:/home$ sudo cat /etc/shadow
+root:$6$...:18091:0:99999:7:::
+...
+user1:!:18097:0:99999:7:::
+
+4) задаем пароль
+david@VirtualBox:/home$ sudo passwd user1
+
+5) чтобы при создании пользователя, создавлись автоматически еще другие файлы
+david@VirtualBox:/home$ ls -l user1/
+итого 12
+-rw-r--r-- 1 user1 user1 8980 апр 16  2018 examples.desktop
+david@VirtualBox:/home$ cd /etc/skel/
+david@VirtualBox:/etc/skel$ ls -l
+итого 12
+-rw-r--r-- 1 root root 8980 апр 16  2018 examples.desktop
+david@VirtualBox:/etc/skel$ sudo mkdir Desktop
+david@VirtualBox:/etc/skel$ sudo mkdir Video
+david@VirtualBox:/etc/skel$ sudo touch myfile.txt
+david@VirtualBox:/etc/skel$ ls -l
+итого 20
+drwxr-xr-x 2 root root 4096 июл 20 11:22 Desktop
+-rw-r--r-- 1 root root 8980 апр 16  2018 examples.desktop
+-rw-r--r-- 1 root root    0 июл 20 11:23 myfile.txt
+drwxr-xr-x 2 root root 4096 июл 20 11:22 Video
+david@VirtualBox:/etc/skel$ cd
+david@VirtualBox:~$ ls -l /home
+итого 8
+drwxr-xr-x 18 david david 4096 июл 20 10:12 david
+drwxr-xr-x  2 user1 user1 4096 июл 20 11:05 user1
+david@VirtualBox:~$ sudo useradd -m user2
+david@VirtualBox:~$ ls -l /home
+итого 12
+drwxr-xr-x 18 david david 4096 июл 20 10:12 david
+drwxr-xr-x  2 user1 user1 4096 июл 20 11:05 user1
+drwxr-xr-x  4 user2 user2 4096 июл 20 11:24 user2
+david@VirtualBox:~$ ls -l /home/user2
+итого 20
+drwxr-xr-x 2 user2 user2 4096 июл 20 11:22 Desktop
+-rw-r--r-- 1 user2 user2 8980 апр 16  2018 examples.desktop
+-rw-r--r-- 1 user2 user2    0 июл 20 11:23 myfile.txt
+drwxr-xr-x 2 user2 user2 4096 июл 20 11:22 Video
+
+6) удалим пользователя (userdel) и если мы хотим чтоб вообще все папки удалили у этого пользователя (-r)
+david@VirtualBox:~$ sudo userdel -r user1
+userdel: почтовый ящик user1 (/var/mail/user1) не найден
+david@VirtualBox:~$ ls -l /home
+итого 8
+drwxr-xr-x 18 david david 4096 июл 20 10:12 david
+drwxr-xr-x  4 user2 user2 4096 июл 20 11:24 user2
+
+7) создадим (groupadd) группы и удалим (groupdel)
+david@VirtualBox:~$ sudo groupadd prog
+david@VirtualBox:~$ sudo groupadd market
+david@VirtualBox:~$ cat /etc/group
+root:x:0:
+...
+prog:x:1003:
+market:x:1004:
+david@VirtualBox:~$ sudo groupadd testers
+david@VirtualBox:~$ sudo groupdel testers 
+
+8) как добавить (useradd) пользователя vasya в группу -aG
+david@VirtualBox:~$ sudo useradd -m vasya
+david@VirtualBox:~$ sudo passwd vasya
+david@VirtualBox:~$ id vasya
+uid=1003(vasya) gid=1005(vasya) группы=1005(vasya)
+david@VirtualBox:~$ sudo usermod -aG market vasya
+david@VirtualBox:~$ id vasya
+uid=1003(vasya) gid=1005(vasya) группы=1005(vasya),1004(market)
+Сделаем васю еще администратором
+david@VirtualBox:~$ sudo usermod -aG sudo vasya
+david@VirtualBox:~$ id vasya
+uid=1003(vasya) gid=1005(vasya) группы=1005(vasya),27(sudo),1004(market)
+
+9) как убрать (deluser) Васю из групп
+david@VirtualBox:~$ id vasya
+uid=1003(vasya) gid=1005(vasya) группы=1005(vasya),27(sudo),1004(market)
+david@VirtualBox:~$ sudo deluser vasya market
+Удаляется пользователь «vasya» из группы «market» ...
+Готово.
+david@VirtualBox:~$ id vasya
+uid=1003(vasya) gid=1005(vasya) группы=1005(vasya),27(sudo)
+david@VirtualBox:~$ sudo deluser vasya sudo
+Удаляется пользователь «vasya» из группы «sudo» ...
+Готово.
+david@VirtualBox:~$ id vasya
+uid=1003(vasya) gid=1005(vasya) группы=1005(vasya)
+
+2.10 Права доступа
+- файл
+d директория 
+l ссылка
+r чтение 4
+w запись 2
+x исполнение 1
+1-3 пользователи u (1 столбец)
+4-6 группа g (2 столбец)
+7-9 все остальные o
+chown-изменить владельца файла/каталога
+chgrp-группу
+chmod-изменить права доступа 
+chmod ugo+x file.txt-добавить исполнение всем
+chmod g-rw file.txt-убрать чтение и запись у группы
+chmod o=rw file.txt-установить чтение и запись всем остальным
+
+1) Смотрим права через список. 
+[david@cent linux]$ ls -l
+итого 16
+-rw-rw-r-- 1 david david 9140 июн 29 11:40 cmd.txt
+drwxrwxr-x 2 david david   37 июн 29 10:20 directory
+-rw-rw-r-- 1 david david  119 июн 29 10:49 hardlink
+drwxrwxr-x 3 david david   56 июн 29 11:02 photo
+lrwxrwxrwx 1 david david    5 июн 29 10:47 softlink -> file1
+
+2) создадим файл
+[david@cent linux]$ touch file4.txt
+[david@cent linux]$ ls -l
+-rw-rw-r-- 1 david david    0 июн 29 11:51 file4.txt
+
+3) даем группе право на чтение
+[david@cent linux]$ chmod g+w file4.txt
+[david@cent linux]$ ls -l
+-rw-rw-r-- 1 david david    0 июн 29 11:51 file4.txt
+
+4) даем группе право на чтение и исполнение
+[david@cent linux]$ chmod g+wx file4.txt
+[david@cent linux]$ ls -l
+-rw-rwxr-- 1 david david    0 июн 29 11:51 file4.txt
+
+5) даем пользователю  право на исполнение и остальным на запись
+[david@cent linux]$ chmod u+x,o+w file4.txt
+[david@cent linux]$ ls -l
+-rwxrwxrw- 1 david david    0 июн 29 11:51 file4.txt
+
+6) отнимем права у группы на запись и исполнение
+[david@cent linux]$ chmod g-wx file4.txt
+[david@cent linux]$ ls -l
+-rwxr--rw- 1 david david    0 июн 29 11:51 file4.txt
+
+7) группе и остальным даем права на запись и исполнение
+[david@cent linux]$ chmod go+wx file4.txt
+[david@cent linux]$ ls -l
+-rwxrwxrwx 1 david david    0 июн 29 11:51 file4.txt
+
+8) пользователю даем все права, группе - только чтение и запись, остальным - только чтение в файле file4.txt
+[david@cent linux]$ chmod u=rwx,g=rw,o=r file4.txt
+[david@cent linux]$ ls -l
+-rwxrw-r-- 1 david david    0 июн 29 11:51 file4.txt
+
+9) у группы отнимем все права
+[david@cent linux]$ chmod u=rwx,g=,o=r file4.txt
+[david@cent linux]$ ls -l
+-rwx---r-- 1 david david    0 июн 29 11:51 file4.txt
+
+10) даем только права на запись (4) всем
+[david@cent linux]$ chmod 444 file4.txt
+[david@cent linux]$ ls -l
+-r--r--r-- 1 david david     0 июн 29 11:51 file4.txt
+
+11) право на запись и чтение (4+2), группе и всем остальным права только на чтение (4)
+[david@cent linux]$ chmod 644 file4.txt
+[david@cent linux]$ ls -l
+-rw-r--r-- 1 david david     0 июн 29 11:51 file4.txt
+
+12) право на запись, чтение и исполнение пользователю (4+2+1), группе и всем остальным права только на чтение (4)
+[david@cent linux]$ chmod 744 file4.txt
+[david@cent linux]$ ls -l
+-rwxr--r-- 1 david david     0 июн 29 11:51 file4.txt
+
+13) право на запись, чтение и исполнение (4+2+1), группе права только на чтение (4) и у всех остальных отнимаем все права (0)
+[david@cent linux]$ chmod 740 file4.txt
+[david@cent linux]$ ls -l
+-rwxr----- 1 david david     0 июн 29 11:51 file4.txt
+
+14) поменять владельца (chown) и группу (chgrp) файлов
+david@VirtualBox:~/Документы/project$ ls -l
+итого 48
+drwxrwx--- 2 david david  4096 июл 19 13:10 google
+-rwxrwx--- 1 david david    69 июл 19 13:12 igu
+drwxrwx--- 4 david david  4096 июл 19 13:10 mail
+-rwxrwx--- 1 david david   119 июл 19 13:34 myBZIP2.bz2
+-rwxrwx--- 1 david david   119 июл 19 13:31 myGZIP.gz
+-rwxrwx--- 1 david david 10240 июл 19 13:30 myTAR.tar
+-rwxrwx--- 1 david david   176 июл 19 13:34 myXZ.xz
+-rwxrwx--- 1 david david   164 июл 19 13:37 myZIP.zip
+-rwxrwx--- 1 david david    19 июл 19 13:13 rpa
+-rwxrwx--- 1 david david     0 июл 19 13:12 scool
+drwxrwx--- 2 david david  4096 июл 19 13:01 yandex
+david@VirtualBox:~/Документы/project$ sudo chown root yandex/
+[sudo] пароль для david: 
+david@VirtualBox:~/Документы/project$ ls -l
+итого 48
+drwxrwx--- 2 david david  4096 июл 19 13:10 google
+-rwxrwx--- 1 david david    69 июл 19 13:12 igu
+drwxrwx--- 4 david david  4096 июл 19 13:10 mail
+-rwxrwx--- 1 david david   119 июл 19 13:34 myBZIP2.bz2
+-rwxrwx--- 1 david david   119 июл 19 13:31 myGZIP.gz
+-rwxrwx--- 1 david david 10240 июл 19 13:30 myTAR.tar
+-rwxrwx--- 1 david david   176 июл 19 13:34 myXZ.xz
+-rwxrwx--- 1 david david   164 июл 19 13:37 myZIP.zip
+-rwxrwx--- 1 david david    19 июл 19 13:13 rpa
+-rwxrwx--- 1 david david     0 июл 19 13:12 scool
+drwxrwx--- 2 root  david  4096 июл 19 13:01 yandex
+david@VirtualBox:~/Документы/project$ sudo chgrp sudo igu
+david@VirtualBox:~/Документы/project$ ls -l
+итого 48
+drwxrwx--- 2 david david  4096 июл 19 13:10 google
+-rwxrwx--- 1 david sudo     69 июл 19 13:12 igu
+drwxrwx--- 4 david david  4096 июл 19 13:10 mail
+-rwxrwx--- 1 david david   119 июл 19 13:34 myBZIP2.bz2
+-rwxrwx--- 1 david david   119 июл 19 13:31 myGZIP.gz
+-rwxrwx--- 1 david david 10240 июл 19 13:30 myTAR.tar
+-rwxrwx--- 1 david david   176 июл 19 13:34 myXZ.xz
+-rwxrwx--- 1 david david   164 июл 19 13:37 myZIP.zip
+-rwxrwx--- 1 david david    19 июл 19 13:13 rpa
+-rwxrwx--- 1 david david     0 июл 19 13:12 scool
+drwxrwx--- 2 root  david  4096 июл 19 13:01 yandex
+
+15) чтобы стереть (t) никто не смог в каталоге mail, даже рут не сможет
+david@VirtualBox:~/Документы/project$ sudo chmod 1777 mail/
+david@VirtualBox:~/Документы/project$ ls -l
+итого 48
+drwxrwx--- 2 david david  4096 июл 19 13:10 google
+-rwxrwx--- 1 david sudo     69 июл 19 13:12 igu
+drwxrwxrwt 4 david david  4096 июл 19 13:10 mail
+-rwxrwx--- 1 david david   119 июл 19 13:34 myBZIP2.bz2
+-rwxrwx--- 1 david david   119 июл 19 13:31 myGZIP.gz
+-rwxrwx--- 1 david david 10240 июл 19 13:30 myTAR.tar
+-rwxrwx--- 1 david david   176 июл 19 13:34 myXZ.xz
+-rwxrwx--- 1 david david   164 июл 19 13:37 myZIP.zip
+-rwxrwx--- 1 david david    19 июл 19 13:13 rpa
+-rwxrwx--- 1 david david     0 июл 19 13:12 scool
+drwxrwx--- 2 root  david  4096 июл 19 13:01 yandex
+david@VirtualBox:~/Документы/project$ sudo chmod 0777 mail/
+david@VirtualBox:~/Документы/project$ ls -l
+итого 48
+drwxrwx--- 2 david david  4096 июл 19 13:10 google
+-rwxrwx--- 1 david sudo     69 июл 19 13:12 igu
+drwxrwxrwx 4 david david  4096 июл 19 13:10 mail
+-rwxrwx--- 1 david david   119 июл 19 13:34 myBZIP2.bz2
+-rwxrwx--- 1 david david   119 июл 19 13:31 myGZIP.gz
+-rwxrwx--- 1 david david 10240 июл 19 13:30 myTAR.tar
+-rwxrwx--- 1 david david   176 июл 19 13:34 myXZ.xz
+-rwxrwx--- 1 david david   164 июл 19 13:37 myZIP.zip
+-rwxrwx--- 1 david david    19 июл 19 13:13 rpa
+-rwxrwx--- 1 david david     0 июл 19 13:12 scool
+drwxrwx--- 2 root  david  4096 июл 19 13:01 yandex
+
+2.11 сетевые команды
+ifconfig, ip addr show - показать мой айпи адресс
+route - показать адресс раутера gateaway
+ping - протестировать соединение к адрессу
+host, dig - дать айпи адрес веб сайта
+netstat - выдать сетевые подключения компьютера
+
+1) показать мой айпи адрес
+#2 сетевых устройства lo (елси бы не было сетевой карты, то ip addr выдало бы только lo, т е как обратиться к компу в сети) и enp0s3 с айпи адресом 192.168.0.105, BROADCAST адрес 192.168.0.255, маск 255.255.255.0, мак адрес 08:00:27:ea:ef:f9 
+david@VirtualBox:~/Документы/project$ ifconfig
+enp0s3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.0.105  netmask 255.255.255.0  broadcast 192.168.0.255
+        inet6 fe80::5dcf:f253:6587:7580  prefixlen 64  scopeid 0x20<link>
+        ether 08:00:27:ea:ef:f9  txqueuelen 1000  (Ethernet)
+        RX packets 22724  bytes 27886024 (27.8 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 7934  bytes 1296729 (1.2 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Локальная петля (Loopback))
+        RX packets 997  bytes 156476 (156.4 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 997  bytes 156476 (156.4 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+david@VirtualBox:~/Документы/project$ ip addr
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:ea:ef:f9 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.0.105/24 brd 192.168.0.255 scope global dynamic noprefixroute enp0s3
+       valid_lft 6320sec preferred_lft 6320sec
+    inet6 fe80::5dcf:f253:6587:7580/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+david@VirtualBox:~/Документы/project$ ip addr show
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:ea:ef:f9 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.0.105/24 brd 192.168.0.255 scope global dynamic noprefixroute enp0s3
+       valid_lft 5894sec preferred_lft 5894sec
+    inet6 fe80::5dcf:f253:6587:7580/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+
+2) выдает инфу куда прислать пакеты с разными адресами
+#_gateway адрес через которые пересылаются пакет в интернет
+david@VirtualBox:~/Документы/project$ route
+Таблица маршутизации ядра протокола IP
+Destination Gateway Genmask Flags Metric Ref Use Iface
+default         _gateway        0.0.0.0         UG    100    0        0 enp0s3
+link-local      0.0.0.0         255.255.0.0     U     1000   0        0 enp0s3
+192.168.0.0     0.0.0.0         255.255.255.0   U     100    0        0 enp0s3
+david@VirtualBox:~/Документы/project$ ip route show
+default via 192.168.0.1 dev enp0s3 proto dhcp metric 100 
+169.254.0.0/16 dev enp0s3 scope link metric 1000 
+192.168.0.0/24 dev enp0s3 proto kernel scope link src 192.168.0.105 metric 100 
+
+3) протестировать соединение к адрессу
+david@VirtualBox:~/Документы/project$ ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=46 time=84.6 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=46 time=85.7 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=46 time=85.2 ms
+64 bytes from 8.8.8.8: icmp_seq=4 ttl=46 time=84.9 ms
+64 bytes from 8.8.8.8: icmp_seq=5 ttl=46 time=84.5 ms
+64 bytes from 8.8.8.8: icmp_seq=6 ttl=46 time=86.0 ms
+64 bytes from 8.8.8.8: icmp_seq=7 ttl=46 time=84.9 ms
+64 bytes from 8.8.8.8: icmp_seq=8 ttl=46 time=85.1 ms
+^C
+--- 8.8.8.8 ping statistics ---
+9 packets transmitted, 8 received, 11% packet loss, time 8010ms
+rtt min/avg/max/mdev = 84.543/85.162/86.018/0.481 ms
+
+4) 4 раза пропингует
+#74.125.131.147 - возвращает ip адрес
+david@VirtualBox:~/Документы/project$ ping -c 4 www.google.com
+PING www.google.com (74.125.131.147) 56(84) bytes of data.
+64 bytes from lu-in-f147.1e100.net (74.125.131.147): icmp_seq=1 ttl=45 time=83.4 ms
+64 bytes from lu-in-f147.1e100.net (74.125.131.147): icmp_seq=2 ttl=45 time=83.6 ms
+64 bytes from lu-in-f147.1e100.net (74.125.131.147): icmp_seq=3 ttl=45 time=84.9 ms
+64 bytes from lu-in-f147.1e100.net (74.125.131.147): icmp_seq=4 ttl=45 time=92.7 ms
+--- www.google.com ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3005ms
+rtt min/avg/max/mdev = 83.469/86.206/92.775/3.836 ms
+
+5) получить айпи адрес веб сайта
+#www.microsoft.com имеет адрес www.microsoft.com-c-3.edgekey.net
+#www.microsoft.com-c-3.edgekey.net имет адрес www.microsoft.com-c-3.edgekey.net.globalredir.akadns.net
+#www.microsoft.com-c-3.edgekey.net.globalredir.akadns.net имеет адрес e13678.dspb.akamaiedge.net
+#e13678.dspb.akamaiedge.net имеет такой адрес 95.100.190.72
+#QUESTION SECTION вопрос сессии - www.ebay.com
+#ANSWER SECTION ответ сессии
+#www.ebay.com. дает нам днс slot9428.ebay.com.edgekey.net
+david@VirtualBox:~/Документы/project$ host www.microsoft.com
+www.microsoft.com is an alias for www.microsoft.com-c-3.edgekey.net.
+www.microsoft.com-c-3.edgekey.net is an alias for www.microsoft.com-c-3.edgekey.net.globalredir.akadns.net.
+www.microsoft.com-c-3.edgekey.net.globalredir.akadns.net is an alias for e13678.dspb.akamaiedge.net.
+e13678.dspb.akamaiedge.net has address 95.100.190.72
+e13678.dspb.akamaiedge.net has IPv6 address 2600:1417:1000:28f::356e
+e13678.dspb.akamaiedge.net has IPv6 address 2600:1417:1000:282::356e
+david@VirtualBox:~/Документы/project$ dig www.ebay.com
+; <<>> DiG 9.11.3-1ubuntu1.3-Ubuntu <<>> www.ebay.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 15946
+;; flags: qr rd ra; QUERY: 1, ANSWER: 3, AUTHORITY: 0, ADDITIONAL: 1
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 65494
+;; QUESTION SECTION:
+;www.ebay.com.			IN	A
+;; ANSWER SECTION:
+www.ebay.com.		268	IN	CNAME	slot9428.ebay.com.edgekey.net.
+slot9428.ebay.com.edgekey.net. 4322 IN	CNAME	e9428.b.akamaiedge.net.
+e9428.b.akamaiedge.net.	19	IN	A	95.100.189.163
+;; Query time: 84 msec
+;; SERVER: 127.0.0.53#53(127.0.0.53)
+;; WHEN: Sun Jul 21 09:50:57 +08 2019
+;; MSG SIZE  rcvd: 133
+
+6) какие порты полученны
+david@VirtualBox:~/Документы/project$ netstat
+Активные соединения с интернетом (w/o servers)
+Proto Recv-Q Send-Q Local Address Foreign Address State      
+tcp        0      0 VirtualBox:56886        ec2-35-161-26-34.:https ESTABLISHED
+udp        0      0 localhost:37827         localhost:37827         ESTABLISHED
+Активные сокеты домена UNIX (w/o servers)
+Proto RefCnt Flags       Type       State         I-Node   Путь
+unix  22     [ ]         DGRAM                    13114    /run/systemd/journal/dev-log
+unix  2      [ ]         DGRAM                    27807    /run/user/1000/systemd/notify
+unix  2      [ ]         DGRAM                    22136    /run/user/121/systemd/notify
+unix  3      [ ]         DGRAM                    13398    /run/systemd/notify
+unix  8      [ ]         DGRAM                    13408    /run/systemd/journal/socket
+unix  2      [ ]         DGRAM                    13411    /run/systemd/journal/syslog
+unix  3      [ ]         STREAM     CONNECTED     43610    
+...
+
+7) как подключиться к другому линукс серверу, сначала откроем порт 22 
+david@Asus:~$ sudo ufw allow 22
+Правила обновлены
+Правила обновлены (v6)
+david@Asus:~$ ssh 192.168.0.105
+The authenticity of host '192.168.0.105 (192.168.0.105)' can't be established.
+ECDSA key fingerprint is SHA256:TcWUTiiSfRl5cFI4UzGlLyUqmnuHIgq7ofJXSzpkhmY.
+Are you sure you want to continue connecting (yes/no)? y
+Please type 'yes' or 'no': yes
+Warning: Permanently added '192.168.0.105' (ECDSA) to the list of known hosts.
+david@192.168.0.105's password: 
+Welcome to Ubuntu 18.04.2 LTS (GNU/Linux 4.18.0-15-generic x86_64)
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+ * Canonical Livepatch is available for installation.
+   - Reduce system reboots and improve kernel security. Activate at:
+     https://ubuntu.com/livepatch
+Могут быть обновлены 419 пакетов.
+197 обновлений касаются безопасности системы.
+The programs included with the Ubuntu system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+Ubuntu comes with ABSOLUTELY NO WARRANTY, to the extent permitted by
+applicable law.
+david@Asus:~$ ssh petya@192.168.0.105
+david@VirtualBox:~$ w
+ 10:29:59 up 14 min,  2 users,  load average: 0,22, 0,87, 1,03
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+david    :0       :0               10:19   ?xdm?  56.51s  0.04s /usr/lib/gdm3/g
+david    pts/1    192.168.0.103    10:29    4.00s  0.12s  0.03s w
+david@VirtualBox:~$ uname -a
+david@VirtualBox:~$ exit
+выход
+Connection to 192.168.0.105 closed.
+
+2.12 скачивание и установка
+wget - скачать файл из интернета
+apt-get install file - скачать и установить программу
+apt-get remove file - удалить программу
+whereis file - где находится скаченный файл
+dpkg -i - установить локально с расширением .deb
+dpkg -r - удалить
+yum install - в центосе установка
+yum remove - удаление 
+rpm -i - установка с расширением .rpm
+rpm -e - удаление
+tut vse mesta, otkuda on nachinaet iskat
+cat /etc/apt/sources.list
+
+2.13 скрипты линукс bash
+./myscript2.sh vasya petya kolya
+$0 raven ./myscript1.sh
+$1 raven vasya
+$2 raven petya
+$3 raven kolya
+myOS=`uname -u` - zapuskaet komandu i sohranayaet resultat v peremennuiu myOS
+read -p "Please enter your name: " name  - sohranit vvod uzera v peremennuiu
+if [ $name == "Vasya" ]; then
+	echo "privet $name"
+elif [ $name == "trump" ]; then
+	echo "hello $name"
+else echo "zdarova $name"
+fi
+x=62 #eto resultat
+case $x in
+	[1-59]) echo "failed $1"
+	[60-100]) echo "passed $1"
+	*) echo "unknow $1"
+esac 
+for x in `ls *.txt`; do
+	echo $x
+done
+for i in {1..10}; do
+	echo $i
+done
+for ((i=1; i<=10; i++)); do
+	echo $i
+done
+
+1) отрекдактируем файл (sh)
+david@Asus:~$ vim myscript1.sh
+#!/bin/bash
+echo "hello world"
+echo "lets show files in this folder"
+ls
+xterm & #zapusktim terminal (xterm) i chotb bez ojidani (&)
+ls -l
+echo "done"
+david@Asus:~$ ls -l
+david@Asus:~$ bash myscript1.sh
+#чтоб запустить скрпт нужно дать ему приоритет исполнения (а всем пользователям + добавить х исполнеие) и чтоб баш постоянно не писать
+david@Asus:~$ sudo chmod a+x myscript1.sh
+david@Asus:~$ ./myscript1.sh
+
+2) хотим получить параметры от пользователя
+david@Asus:~$ vim myscript2.sh
+#!/bin/bash
+myComputer="Lenovo G510"
+myOS=`uname -a` #запустится команда название операционной системы
+echo "this script name is $0"
+echo "privet $1"
+echo "hello $2"
+num1=50
+num2=45
+summa=$((num1+num2))
+echo "$num1 + $num2 = $summa"
+myhost=`hostname`#дает название компьютера моего
+mygtw="8.8.8.8"
+ping -c 4 $myhost
+ping -c 4 $mygtw
+echo -n "this is done" #чтоб все было на одной строке (-n)
+echo "really done"
+david@Asus:~$ sudo chmod a+x myscript2.sh
+david@Asus:~$ ./myscript2.sh
+david@Asus:~$ ./myscript2.sh vasya kolya
+
+3) хотим запустить скрипт вместе с параметрами, которые проверяют те самые пременные
+david@Asus:~$ vim myscript3.sh
+#!/bin/bash
+#если вася - привет, если трамп - хэлло, если другой - здарова
+if [ "$1" == "Vasya" ]; then
+	echo "privet $1"
+elif [ "$1" == "Trump" ]; then
+	echo "hello $1"
+else echo "Zdorova $1"
+fi
+# посмотрим case
+x=$2
+echo "start CASE"
+case $x in
+	1) echo "this is one";;
+    [2-9]) echo "two-nine";;
+  "petya") echo "privet $x";;
+	*) echo "unknow parametr, sorry"
+esac #case закрывается
+david@Asus:~$ sudo chmod a+x myscript3.sh
+david@Asus:~$ ./myscript3.sh
+david@Asus:~$ ./myscript3.sh trump 3
+
+4) не хотим брать этот параметр x=$2, а просто хотим получить этот параметр
+david@Asus:~$ vim myscript3.sh
+#!/bin/bash
+#esli vasya - privet, esli tram - hello, esli drugoi - zdarova
+if [ "$1" == "Vasya" ]; then
+	echo "privet $1"
+elif [ "$1" == "Trump" ]; then
+	echo "hello $1"
+else echo "Zdorova $1"
+fi
+#
+#echo "please enter something"
+#read x
+#это можно так тоже написать
+read -p "enter something:" x
+#
+echo "start CASE"
+case $x in
+	1) echo "this is one";;
+    [2-9]) echo "two-nine";;
+  "petya") echo "privet $x";;
+	*) echo "unknow parametr, sorry"
+david@Asus:~$ ./myscript3.sh petya
+
+5)как работать с циклом
+david@Asus:~$ vim myscript4.sh
+#!/bin/bash
+COUNTER=0
+while [ $COUNTER -lt 10 ]; do
+	echo "current counter is $COUNTER"
+	COUNTER=$(($COUNTER+1))
+	#let COUNTER=COUNTER+1
+	#let COUNTER+=1
+done 
+#пролистаем все текстовые файлы с тхт по очереди
+for myfyle in `ls *.txt`; do
+	cat $myfile
+done
+# 10 raz nujno vivesti
+for x in {1..10}; do
+	echo "X = $x"
+done
+#
+for(( i=1; i<=10; i++ )); do
+	echo "nomer I = $i"
+done
+david@Asus:~$ sudo chmod a+x myscript4.sh
+david@Asus:~$ ./myscript4.sh
+
+6) поработаем с функциями
+david@Asus:~$ vim myscript5.sh
+#!/bin/bash
+myFunction(){
+	echo "this is text from function"
+	echo "fisrt parametr is: $1"
+	echo "second parametr is: $2"
+}
+myFuncion 50 vasya
+david@Asus:~$ sudo chmod a+x myscript5.sh
+david@Asus:~$ ./myscript5.sh
+
+7) как возращать функцию
+david@Asus:~$ vim myscript5.sh
+#!/bin/bash
+summa=0
+myFunction(){
+	echo "this is text from function"
+	echo "num1 = $1"
+	echo "num2 = $2"
+	summa=$(($1+S2))
+}
+myFuncion 50 10
+echo "Summa=$summa"
+david@Asus:~$ ./myscript5.sh
+
+2.14 Работа с дисками
+fdisk -l, lsblk - показать какие есть диски
+cfdisk /dev/sdb - редактирование раздела sdb
+mkfs.ntfs -f /dev/sdb1 - форматировать раздел
+/etc/fstab - прописывают новые диски
+mount /media/hdd2 - присоединить диск прописанный в файлес fstab с имененем hdd2
+
+1) пролистаем диск
+# sata,d device,a буква дискa,1 портиция
+david@Asus:~$ sudo fdisk -l
+...
+disk/dev/sda
+david@Asus:~$ lsblk
+
+2)добавиляем диск через  virtualbox и появляется еще 1 диск
+david@asus:lsblk
+
+3) теперь можно рабить на портиции или создать таблицу
+david@Asus:~$ sudo cfdisk /dev/sdb
+dos->10g->primary->write->yes->quit
+david@Asus:~$ lsblk
+
+4) мы создали только портиции, теперь нужно только форматнуть
+david@Asus:~$ sudo mkfs.ntfs -f /dev/sdb1
+
+5) появился диск, в его свойствах смотрим где он находится и смотрим в терминале
+david@Asus:~$ cd media
+
+6) создадим директорию и отредактруем файл
+david@Asus:~$ cd /media
+david@Asus:~$/media sudo mkdir hdd2
+david@Asus:~$/media chmod 777 hdd2
+david@Asus:~$/media sudo vim /etc/fstab
+/dev/sdb1 /media/hdd2 ntfs default 0 0
+david@Asus:~$/media sudo mount /media/hdd2
+david@Asus:~$/media cd hdd2
+
+7) сделаем ссылку на этот файл
+david@Asus:~$/media/hdd2 ln -s /media/hdd2 `/Desktop/HDD2
+
+2.15 Изменение имени компа и айпи адрес на постоянную
+hostname - вывести название компа
+sudo hostname myLinux - переименовать комп в myLinux
+/etc/hostname - тут прописано название компа
+/etc/hosts - тут прописываем название напротив ip адресаa
+ifconfig - вывести текущий ip
+sudo ifconfig eth0 10.10.10.10 netmask 255.0.0.0 - временно поменять ip адрес
+/etc/network/interfaces - тут прописываем постоянный ip адрес
+ifdown eth - отключить сеть
+ifup eth - включить
+
+1) поменяем название компа
+david@Asus:~$ hostname
+david@Asus:~$ vim /etc/hostname
+david@Asus:~$ sudo hostname Hello
+david@Asus:~$ hostname
+david@Asus:~$ vim /etc/hostname
+
+2) смотрим комп и его ip адрес
+david@Asus:~$ vim /etc/hosts
+david@Asus:~$ ifconfig
+
+3) изменим постоянный айпи адрес
+david@Asus:~$ sudo vim /etc/network/interfaces
+auto enp0s3
+iface enp0s3 inet static
+	address 20.20.20.20
+	netmask 255.0.0.0
+	gateway 20.20.20,1
+	dns-nameservers 8.8.8.8
+david@Asus:~$ sudo ifdown enp0s3
+david@Asus:~$ sudo ifup enp0s3
+david@Asus:~$ ifconfig
+
+4) временно поменяем айип адрес
+david@Asus:~$ sudo ifconfig enp0s3 1.1.1.1 netmask 255.0.0.0
+
+2.16 запуск задач по расписанию www.crontab.guru
+* минута (0-59)
+* час (0-23)
+* день в месяце (1-31)
+* месяц (1-12)
+* день недели (0-6)
+
+1) смотрим весь список задач
+david@VirtualBox:~$ crontab -l
+no crontab for david
+
+2) зайдем через редактор (мой выбор Вим)
+david@VirtualBox:~$ crontab -e
+no crontab for david - using an empty one
+crontab: installing new crontab
+
+3) сделаем так, чтобы в файле tmp.txt, после каждой минуты отображался новый текст (Hi!). напишем в редакторе
+david@VirtualBox:~$ crontab -e
+* * * * * echo 'Hi!' >> /home/david/Документы/tmp.txt
+
+4) получим такой результат
+david@VirtualBox:~$ cat /home/david/Документы/tmp.txt
+hello
+Hi!
+Hi!
+Hi!
+Hi!
+
+5) с 9 до 18 часов (9-18) с понедельника по пятницу (1-5) выводить Hi
+david@VirtualBox:~$ crontab -e
+#0 9-18 * * 1-5 echo 'Hi' >> /home/david/Документы/tmp.txt
+
+2.17 Python-скрипт по расписанию
+хочу чтобы на рабочем столе периодично отображались курсы доллара. заходим в центральный банк  смотрим курс валют, просмотрим тег. зацепимся именно за знак доллара, он один на этой странице. у него тег ins, и цепляюсь за него, потом есть родительский тег tr и забираю последний элемент td
+
+1) создаем файл-script ruble.py:
+
+29)#!/usr/bin/python3
+1) импортирую бибилиотеку, так как она будет отвечать за отправку запросов
+1) import requests
+11) from bs4 import BeautifulSoup
+26) отвечает за взаимодействие с ОС
+26) import os
+6) создаем фугкцию которая отправляет запрос
+6) def get_html():
+7)	url='http://www.cbr.ru/'
+8) delaem zapros na server
+8)	r=requests.get(url)
+9) функция возвращает свойство text, уоторая содержит информацию об html
+9)	return r.text
+10) def get_dollar_rate(html):
+12)	soup = BeatifulSoup(html, 'lxml')
+13) ищем ins в теге tr
+#13)	t = soup.find('ins', text='$')
+17) обратимся к его родительскому контейнеру tr
+#17) 	t = soup.find('ins', text='$').find_parent('tr')
+18) получем тег tr
+19) 	t = soup.find('ins', text='$').find_parent('tr').find_all('td')[-1].text
+20) получим текст элемента
+#14) 	print(t)
+21) указываем до какого числа нуно пропустить инфу (>) и какой элемент нам нужен (-1)
+21) 	result=t.split('>')[-1]
+#22)	print(result)
+22) получи число курс
+23) 	return result
+24) хотим выводить это число на экран
+24)def send_message(message):
+25) 	title='dollar SHA:'
+#26)	os.system('notify-send "title" "message"')
+26)	os.system('notify-send "{}" "{}"'.format(title, message))
+4)def main():
+#5)	pass
+15) в качестве аргумента выдаю результаты getсh_tml
+#15) 	get_dollar_rate(get_html())
+27) поулчаем курс доллара
+27) 	rate=get_dollar_rate(get_html())
+28) 	send_message(rate)
+16) сохраняем и запускаем скрипт, выведет <ins>$</ins>
+2) if __name__ == '__main__':
+3)	main()
+
+2) смотрим какие права есть у нашего файла
+david@VirtualBox:~$ ls -l
+
+3) ВИДИМ ЧТО ПРАВА ТОЛЬко на чтение из запись
+david@VirtualBox:~$ chmod a+x ruble.py
+david@VirtualBox:~$ ls -l
+
+4) теперь у всех есть права на исполнение
+crontav -e
+* * * * * export DISPLAY=:0 && cd /home/david/Destop && ./ruble.py
+
+5) отображается окно автоматически
+
+2.18. Работа с mysql
+
+1) установка msql в ubuntu
+root@VirtualBox:/home/david# apt-get install mysql-server mysql-client
+
+2) задаем пользователя (-u) и пароль (-p)
+root@VirtualBox:/home/david# mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 3
+Server version: 5.7.26-0ubuntu0.18.04.1 (Ubuntu)
+Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+3) посмотрим базу данных
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.04 sec)
+
+4) создадим базу данных (test_base), через character set укажем кодировку БД, так по умолчанию не юникодная кодировка стоит, и укажем сравнивание припоиске и сортировке collate (регистрозависимый и регистронезависимый) и проверим
+mysql> create database test_base character set utf8 collate utf8_unicode_ci;
+Query OK, 1 row affected (0.04 sec) - запрос создан и одна строка появилась
+mysql> show databases;
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
+| test_base          |
++--------------------+
+5 rows in set (0.00 sec)
+
+5) стерем базу данных и проверим
+mysql> drop database test_base;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.00 sec)
+
+6) выйти из mysql
+mysql> exit;
+Bye
+
+7) установим сервер БД postgresql, после установки нужно поменять пароль для пользователя БД и создать новую БД
+root@VirtualBox:/home/david# apt-get -y install postgresql
+
+8) по умолчанию задается пользователь postgres и укзываем что он должен зайти в консоль 
+root@VirtualBox:/home/david# sudo -u postgres psql
+psql (10.9 (Ubuntu 10.9-0ubuntu0.18.04.1))
+Type "help" for help.
+
+9) для изменения пароля пользователя
+postgres=# \password
+Enter new password: 
+Enter it again: 
+
+10) добавляю БД
+postgres=# create database test_base;
+CREATE DATABASE
+
+11) посмотрим БД в виде таблице
+postgres=# \l
+
+12) удалим БД и выйдем
+postgres=# drop database test_base;
+DROP DATABASE
+postgres-# \q
+
+3. Как сделать свой ярлык
+заходим в /smartgit/bin и зайдем в папку /usr/share/applications/, тут создадим пустой файл smartgit.desktop и через текстовый редактор напишем
+[Desktop entry]
+Version=1.0
+Name=SmartGit
+Comment=test
+Exec= чтоб узнать путь, перетащим smartgit.sh в окно терминала, там будет путь, скопруем его и вставляем сюда
+Terminal=false (если мы хотим чтобы вместе с приложением запускался терминал, значит ставим true)
+Type=Application
+Icon=также скопируем путь через терминал
+
+
+
+
