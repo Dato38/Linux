@@ -1702,6 +1702,62 @@ Terminal=false (если мы хотим чтобы вместе с прилож
 Type=Application
 Icon=также скопируем путь через терминал
 
+4. Работа с Git
+-m - комментарий
+-a - все файлы, которые были изменены или добавлены поместить в индекс
+
+4.1 Добавим новый проект в гитхабе. 
+
+1) делаем инциализацию в директории. Псле чего появится в директории появится
+david@Asus:~/Документы/Git/Linux$ git init
+Инициализирован пустой репозиторий Git в /...
+david@Asus:~/Документы/Git/Linux$ git status
+На ветке master
+Еще нет коммитов
+Неотслеживаемые файлы:
+  (используйте «git add <файл>…», чтобы добавить в то, что будет включено в коммит)
+	cmd.txt
+	errors.txt
+ничего не добавлено в коммит, но есть неотслеживаемые файлы (используйте «git add», чтобы отслеживать их)
+
+2) перед коммитом нужно залогиниться
+david@Asus:~/Документы/Git/Linux$ git config --global user.name "David"
+david@Asus:~/Документы/Git/Linux$ git config --global user.email "david.work38@mail.ru"
+david@Asus:~/Документы/Git/Linux$ git config --list
+user.name=David
+user.email=david.work38@mail.ru
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+
+3) сохраним текущее состояние
+david@Asus:~/Документы/Git/Linux$ git commit -m "Linux command"
+[master (корневой коммит) ba48592] Linux command
+ 2 files changed, 1714 insertions(+)
+ create mode 100755 cmd.txt
+ create mode 100644 errors.txt
+david@Asus:~/Документы/Git/Linux$ git status
+На ветке master
+нечего коммитить, нет изменений в рабочем каталоге
+
+4) добавляем в гидхаб
+david@Asus:~/Документы/Git/Linux$ git remote add origin https://github.com/Dato38/Linux.git
+david@Asus:~/Документы/Git/Linux$ git push -u origin master
+Username for 'https://github.com': GDK38
+Password for 'https://GDK38@github.com': 
+Подсчет объектов: 4, готово.
+Delta compression using up to 4 threads.
+Сжатие объектов: 100% (4/4), готово.
+Запись объектов: 100% (4/4), 19.38 KiB | 3.23 MiB/s, готово.
+Total 4 (delta 0), reused 0 (delta 0)
+remote: This repository moved. Please use the new location:
+remote:   https://github.com/GDK38/Linux.git
+To https://github.com/Dato38/Linux.git
+ * [new branch]      master -> master
+Ветка «master» отслеживает внешнюю ветку «master» из «origin».
+
+
 
 
 
