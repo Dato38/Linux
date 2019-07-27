@@ -1757,6 +1757,45 @@ To https://github.com/Dato38/Linux.git
  * [new branch]      master -> master
 Ветка «master» отслеживает внешнюю ветку «master» из «origin».
 
+4.2 изменим файл cmd.txt, добавим туда информацию
+
+1) проверим
+david@Asus:~/Документы/Git/Linux$ git status
+На ветке master
+Ваша ветка обновлена в соответствии с «origin/master».
+Изменения, которые не в индексе для коммита:
+  (используйте «git add <файл>…», чтобы добавить файл в индекс)
+  (используйте «git checkout -- <файл>…», чтобы отменить изменения
+   в рабочем каталоге)
+	изменено:      cmd.txt
+нет изменений добавленных для коммита
+(используйте «git add» и/или «git commit -a»)
+
+2) комитим с добавлением
+david@Asus:~/Документы/Git/Linux$ git commit -a -m "Add 4. Work GitHub"
+[master 0e5bbbb] Add 4. Work GitHub
+ 1 file changed, 56 insertions(+)
+david@Asus:~/Документы/Git/Linux$ git status
+На ветке master
+Ваша ветка опережает «origin/master» на 1 коммит.
+  (используйте «git push», чтобы опубликовать ваши локальные коммиты)
+нечего коммитить, нет изменений в рабочем каталоге
+
+3) выкладываем изменения в гитхаб
+david@Asus:~/Документы/Git/Linux$ git push
+Username for 'https://github.com': GDK38
+Password for 'https://GDK38@github.com': 
+Подсчет объектов: 3, готово.
+Delta compression using up to 4 threads.
+Сжатие объектов: 100% (3/3), готово.
+Запись объектов: 100% (3/3), 1.51 KiB | 514.00 KiB/s, готово.
+Total 3 (delta 1), reused 0 (delta 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+remote: This repository moved. Please use the new location:
+remote:   https://github.com/GDK38/Linux.git
+To https://github.com/Dato38/Linux.git
+   ba48592..0e5bbbb  master -> master
+
 
 
 
